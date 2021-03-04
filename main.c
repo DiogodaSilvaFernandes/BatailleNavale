@@ -148,87 +148,102 @@ void gameVerifications(int col, int line){
         }
     }
 }
+
+void game(){
+    char colChoice;
+    int lineChoice;
+
+    system("cls");
+    printf("Lancement de la partie ! Bonne chance !\n\n");
+
+    // Continue la partie tant que tout les bateaux ne sont pas coulés
+    do {
+        // Fonction pour afficher le tableau
+        gameBoard_Show();
+
+        //Vérification que la colone choisie est entre A et J
+        do {
+            printf("\n\n-> Colonne (A à J -> En majuscule):");
+            scanf("%s", &colChoice);
+
+            if (colChoice < 65 || colChoice > 74) {
+                printf("Vous n'avez pas choisi une lettre en A et J !\n");
+            }
+        } while (colChoice < 65 || colChoice > 74);
+
+        //Vérification que la ligne choisie est entre 1 et 10
+        do {
+            printf("-> Ligne (1 à 10):");
+            scanf("%d", &lineChoice);
+
+            if (lineChoice < 1 || lineChoice > 10) {
+                printf("Vous devez choisir que des chiffres entre 1 et 10 !\n");
+            }
+        } while (lineChoice < 1 || lineChoice > 10);
+
+        gameVerifications(colChoice-64,lineChoice);
+
+        system("PAUSE");
+
+        system("cls");
+
+    } while (nbrPorteAvion > 0 || nbrCroiseur > 0 || nbrContreTorpilleur > 0 || nbrTorpilleur > 0);
+
+    printf("BRAVO ! VOUS AVEZ GAGNÉ LA PARTIE !\n\nRetour au menu -> ");
+    system("PAUSE");
+
+    system("cls");
+}
 //</editor-fold>
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleTitle("Bataille Navale - V0.1");
 
+    //Commande pour mettre le cmd en plein écran (provient de https://codes-sources.commentcamarche.net/forum/affich-371867-plein-ecran-c-console)
+    HWND hwnd=GetForegroundWindow();
+    ShowWindow(hwnd,SW_MAXIMIZE);
+
     // Declaration de variables
     char colChoice;
     int lineChoice = 0, gameOn = 1, menuChoice = 0;
 
-    printf("Bienvenue !\n");
+    /*printf("            ┏━━┓┏━━┳━━━┳━┓ ┏┳┓  ┏┳━━━┳━┓ ┏┳┓ ┏┳━━━┓┏┓\n"
+           "            ┃┏┓┃┗┫┣┫┏━━┫ ┗┓┃┃┗┓┏┛┃┏━━┫ ┗┓┃┃┃ ┃┃┏━━┛┃┃\n"
+           "            ┃┗┛┗┓┃┃┃┗━━┫┏┓┗┛┣┓┃┃┏┫┗━━┫┏┓┗┛┃┃ ┃┃┗━━┓┃┃\n"
+           "            ┃┏━┓┃┃┃┃┏━━┫┃┗┓ ┃┃┗┛┃┃┏━━┫┃┗┓ ┃┃ ┃┃┏━━┛┗┛\n"
+           "            ┃┗━┛┣┫┣┫┗━━┫┃ ┃ ┃┗┓┏┛┃┗━━┫┃ ┃ ┃┗━┛┃┗━━┓┏┓\n"
+           "            ┗━━━┻━━┻━━━┻┛ ┗━┛ ┗┛ ┗━━━┻┛ ┗━┻━━━┻━━━┛┗┛"
+    );*/
 
     while (gameOn != 0) {
 
+        system("cls");
+        printf("\n┏━┓┏━┳━━━┳━┓ ┏┳┓ ┏┓┏━━━┳┓ ┏┓  ┏┳━━━┳┓ ┏┓\n"
+               "┃ ┗┛ ┃┏━━┫ ┗┓┃┃┃ ┃┃┗┓┏┓┃┃ ┃┃  ┃┃┏━━┫┃ ┃┃\n"
+               "┃┏┓┏┓┃┗━━┫┏┓┃┃┃┃ ┃┃ ┃┃┃┃┃ ┃┃  ┃┃┗━━┫┃ ┃┃\n"
+               "┃┃┃┃┃┃┗━━┫┃┃┗┛┃┃ ┃┃ ┃┃┃┃┃ ┃┃  ┃┃┗━━┫┃ ┃┃\n"
+               "┃┃┃┃┃┃┏━━┫┃┗┓ ┃┃ ┃┃ ┃┃┃┃┃ ┃┃┏┓┃┃┏━━┫┃ ┃┃\n"
+               "┃┃┃┃┃┃┗━━┫┃ ┃ ┃┗━┛┃┏┛┗┛┃┗━┛┃┃┗┛┃┗━━┫┗━┛┃\n"
+               "┗┛┗┛┗┻━━━┻┛ ┗━┻━━━┛┗━━━┻━━━┛┗━━┻━━━┻━━━┛\n"
+               "    1 - Jouer\n"
+               "    2 - Aide de Jeu\n"
+               "    3 - Quitter\n\n"
+               "Que voulez-vous faire :"
+        );
 
-        while (menuChoice < 1 || menuChoice > 3){
-
-            printf("\nMENU DU JEU\n"
-                   "    1 - Jouer\n"
-                   "    2 - Aide de Jeu\n"
-                   "    3 - Quitter\n\n"
-                   "Que voulez-vous faire :"
-            );
-
-            scanf("%d",&menuChoice);
-        }
+        scanf("%d",&menuChoice);
 
         switch (menuChoice) {
             case 1:
-                system("cls");
-                printf("Lancement de la partie ! Bonne chance !\n\n");
-
-                // Continue la partie tant que tout les bateaux ne sont pas coulés
-                do {
-                    // Fonction pour afficher le tableau
-                    gameBoard_Show();
-
-                    //Vérification que la colone choisie est entre A et J
-                    do {
-                        printf("\n\n-> Colonne (A à J -> En majuscule):");
-                        scanf("%s", &colChoice);
-
-                        if (colChoice < 65 || colChoice > 74) {
-                            printf("Vous n'avez pas choisi une lettre en A et J !\n");
-                        }
-                    } while (colChoice < 65 || colChoice > 74);
-
-                    //Vérification que la ligne choisie est entre 1 et 10
-                    do {
-                        printf("-> Ligne (1 à 10):");
-                        scanf("%d", &lineChoice);
-
-                        if (lineChoice < 1 || lineChoice > 10) {
-                            printf("Vous devez choisir que des chiffres entre 1 et 10 !\n");
-                        }
-                    } while (lineChoice < 1 || lineChoice > 10);
-
-                    gameVerifications(colChoice-64,lineChoice);
-
-                    system("PAUSE");
-
-                    system("cls");
-
-                } while (nbrPorteAvion > 0 || nbrCroiseur > 0 || nbrContreTorpilleur > 0 || nbrTorpilleur > 0);
-
-                printf("BRAVO ! VOUS AVEZ GAGNÉ LA PARTIE !\n\nRetour au menu -> ");
-                system("PAUSE");
-
-                system("cls");
-
+                game();
                 menuChoice = 0;
-
                 break;
-
             case 2:
                 menuChoice = 0;
-                system("cls");
                 break;
 
             case 3:
-                menuChoice = 0;
                 gameOn = 0;
                 break;
 
@@ -237,5 +252,5 @@ int main() {
                 break;
         }
     }
-        return 0;
+    return 0;
 }

@@ -154,7 +154,11 @@ void game(){
     int lineChoice;
 
     system("cls");
-    printf("Lancement de la partie ! Bonne chance !\n\n");
+    printf(" ____                                ____  _                                _\n"
+           "| __ )   ___   _ __   _ __    ___   / ___|| |__    __ _  _ __    ___  ___  | |\n"
+           "|  _ \\  / _ \\ | '_ \\ | '_ \\  / _ \\ | |    | '_ \\  / _` || '_ \\  / __|/ _ \\ | |\n"
+           "| |_) || (_) || | | || | | ||  __/ | |___ | | | || (_| || | | || (__|  __/ |_|\n"
+           "|____/  \\___/ |_| |_||_| |_| \\___|  \\____||_| |_| \\__,_||_| |_| \\___|\\___| (_)\n\n");
 
     // Continue la partie tant que tout les bateaux ne sont pas coulés
     do {
@@ -194,6 +198,79 @@ void game(){
 
     system("cls");
 }
+
+void gameHelp(){
+    int menuChoice = 0;
+
+    while (menuChoice != 3) {
+        while (menuChoice < 1 || menuChoice > 3) {
+            system("cls");
+
+            printf("    _     ___  ____   _____   ____   _____       _  _____  _   _\n"
+                   "   / \\   |_ _||  _ \\ | ____| |  _ \\ | ____|     | || ____|| | | |\n"
+                   "  / _ \\   | | | | | ||  _|   | | | ||  _|    _  | ||  _|  | | | |\n"
+                   " / ___ \\  | | | |_| || |___  | |_| || |___  | |_| || |___ | |_| |\n"
+                   "/_/   \\_\\|___||____/ |_____| |____/ |_____|  \\___/ |_____| \\___/\n\n");
+
+            printf("Que souhaitez-vous connaitre ?\n"
+                   "    1 - Règles\n"
+                   "    2 - Techniques de jeu\n"
+                   "    3 - Revenir au menu principal\n"
+                   "->"
+            );
+            scanf("%d", &menuChoice);
+        }
+
+        switch (menuChoice) {
+            case 1:
+                system("cls");
+
+                printf(" ____   _____  ____  _      _____  ____\n"
+                       "|  _ \\ | ____|/ ___|| |    | ____|/ ___|\n"
+                       "| |_) ||  _| | |  _ | |    |  _|  \\___ \\\n"
+                       "|  _ < | |___| |_| || |___ | |___  ___) |\n"
+                       "|_| \\_\\|_____|\\____||_____||_____||____/");
+
+                printf("\n\n    Vous êtes face à une flotte de 5 bateaux. Celle-ci est composée d'un porte-avions (5 cases), d'un croiseur (4 cases), de deux contre-torpilleurs (2x 3 cases) et d'un torpilleur (2 cases).\n"
+                       "    Vous pouvez tirer autant de fois que vous le souhaitez tant que tout les bateaux adverses sont en vie.\n"
+                       "    A chaque coup, vous devez entrer la case sur laquelle vous souhaitez tier, par exemple B2 ou H6.\n"
+                       "    Trois symboles peuvent apparaitre dans une case:\n"
+                       "        - X : A l'eau\n"
+                       "        - O : Touché\n"
+                       "        - C : Coulé\n"
+                       "    Vous ne pouvez que tirer qu'une seule fois par case !\n\n"
+                       "Retour au menu -> "
+                );
+                system("PAUSE");
+                menuChoice = 0;
+                break;
+
+            case 2:
+                system("cls");
+
+                printf(" _____  _____  ____  _   _  _   _  ___  ___   _   _  _____  ____\n"
+                       "|_   _|| ____|/ ___|| | | || \\ | ||_ _|/ _ \\ | | | || ____|/ ___|\n"
+                       "  | |  |  _| | |    | |_| ||  \\| | | || | | || | | ||  _|  \\___ \\\n"
+                       "  | |  | |___| |___ |  _  || |\\  | | || |_| || |_| || |___  ___) |\n"
+                       "  |_|  |_____|\\____||_| |_||_| \\_||___|\\__\\_\\ \\___/ |_____||____/\n\n");
+
+                printf("    Chasse/Cible:\n"
+                       "        Elle consiste à viser aléatoirement une case jusqu'à toucher un bateau.\n"
+                       "        Une fois touché, vous devez vous acharner sur les cases aux alentours jusqu'à couler le bateau.\n"
+                       "        Dès le bateau coulé, on recommence !\n\n"
+                       "    D'autres techniques arriveront...\n\n"
+                       "Retour au menu -> "
+                );
+                system("PAUSE");
+                menuChoice = 0;
+
+                break;
+
+            default:
+                break;
+        }
+    }
+}
 //</editor-fold>
 
 int main() {
@@ -205,31 +282,28 @@ int main() {
     ShowWindow(hwnd,SW_MAXIMIZE);
 
     // Declaration de variables
-    char colChoice;
-    int lineChoice = 0, gameOn = 1, menuChoice = 0;
-
-    /*printf("            ┏━━┓┏━━┳━━━┳━┓ ┏┳┓  ┏┳━━━┳━┓ ┏┳┓ ┏┳━━━┓┏┓\n"
-           "            ┃┏┓┃┗┫┣┫┏━━┫ ┗┓┃┃┗┓┏┛┃┏━━┫ ┗┓┃┃┃ ┃┃┏━━┛┃┃\n"
-           "            ┃┗┛┗┓┃┃┃┗━━┫┏┓┗┛┣┓┃┃┏┫┗━━┫┏┓┗┛┃┃ ┃┃┗━━┓┃┃\n"
-           "            ┃┏━┓┃┃┃┃┏━━┫┃┗┓ ┃┃┗┛┃┃┏━━┫┃┗┓ ┃┃ ┃┃┏━━┛┗┛\n"
-           "            ┃┗━┛┣┫┣┫┗━━┫┃ ┃ ┃┗┓┏┛┃┗━━┫┃ ┃ ┃┗━┛┃┗━━┓┏┓\n"
-           "            ┗━━━┻━━┻━━━┻┛ ┗━┛ ┗┛ ┗━━━┻┛ ┗━┻━━━┻━━━┛┗┛"
-    );*/
+    int gameOn = 1, menuChoice = 0, test = 0;
 
     while (gameOn != 0) {
 
         system("cls");
-        printf("\n┏━┓┏━┳━━━┳━┓ ┏┳┓ ┏┓┏━━━┳┓ ┏┓  ┏┳━━━┳┓ ┏┓\n"
-               "┃ ┗┛ ┃┏━━┫ ┗┓┃┃┃ ┃┃┗┓┏┓┃┃ ┃┃  ┃┃┏━━┫┃ ┃┃\n"
-               "┃┏┓┏┓┃┗━━┫┏┓┃┃┃┃ ┃┃ ┃┃┃┃┃ ┃┃  ┃┃┗━━┫┃ ┃┃\n"
-               "┃┃┃┃┃┃┗━━┫┃┃┗┛┃┃ ┃┃ ┃┃┃┃┃ ┃┃  ┃┃┗━━┫┃ ┃┃\n"
-               "┃┃┃┃┃┃┏━━┫┃┗┓ ┃┃ ┃┃ ┃┃┃┃┃ ┃┃┏┓┃┃┏━━┫┃ ┃┃\n"
-               "┃┃┃┃┃┃┗━━┫┃ ┃ ┃┗━┛┃┏┛┗┛┃┗━┛┃┃┗┛┃┗━━┫┗━┛┃\n"
-               "┗┛┗┛┗┻━━━┻┛ ┗━┻━━━┛┗━━━┻━━━┛┗━━┻━━━┻━━━┛\n"
+        printf(" ____          _          _  _  _         _   _                      _                  __     __ ___     _\n"
+               "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___            \\ \\   / // _ \\   / |\n"
+               "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\    _____   \\ \\ / /| | | |  | |\n"
+               "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/   |_____|   \\ V / | |_| |_ | |\n"
+               "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|              \\_/   \\___/(_)|_|\n"
+        );
+
+        printf("\n============================================================================================================\n"
+               " __  __  _____  _   _  _   _   ____   _   _       _  _____  _   _\n"
+               "|  \\/  || ____|| \\ | || | | | |  _ \\ | | | |     | || ____|| | | |\n"
+               "| |\\/| ||  _|  |  \\| || | | | | | | || | | |  _  | ||  _|  | | | |\n"
+               "| |  | || |___ | |\\  || |_| | | |_| || |_| | | |_| || |___ | |_| |\n"
+               "|_|  |_||_____||_| \\_| \\___/  |____/  \\___/   \\___/ |_____| \\___/\n\n"
                "    1 - Jouer\n"
                "    2 - Aide de Jeu\n"
                "    3 - Quitter\n\n"
-               "Que voulez-vous faire :"
+               "Que souhaitez-vous faire :"
         );
 
         scanf("%d",&menuChoice);
@@ -240,6 +314,7 @@ int main() {
                 menuChoice = 0;
                 break;
             case 2:
+                gameHelp();
                 menuChoice = 0;
                 break;
 

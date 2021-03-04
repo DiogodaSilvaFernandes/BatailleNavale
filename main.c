@@ -277,9 +277,24 @@ int main() {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleTitle("Bataille Navale - V0.1");
 
-    //Commande pour mettre le cmd en plein écran (provient de https://codes-sources.commentcamarche.net/forum/affich-371867-plein-ecran-c-console)
-    HWND hwnd=GetForegroundWindow();
-    ShowWindow(hwnd,SW_MAXIMIZE);
+    //Commande pour mettre le cmd en plein écran (provient de https://batchloaf.wordpress.com/2012/04/17/simulating-a-keystroke-in-win32-c-or-c-using-sendinput/)
+    // input event
+    INPUT ip;
+
+    // Met en place un clavier virtuel
+    ip.type = INPUT_KEYBOARD;
+    ip.ki.wScan = 0;
+    ip.ki.time = 0;
+    ip.ki.dwExtraInfo = 0;
+
+    // Simule la pression de la touche
+    ip.ki.wVk = 0x7A;
+    ip.ki.dwFlags = 0;
+    SendInput(1, &ip, sizeof(INPUT));
+
+    // Simule le relâchement de la touche
+    ip.ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, &ip, sizeof(INPUT));
 
     // Declaration de variables
     int gameOn = 1, menuChoice = 0, test = 0;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <windows.h>
+#include <ctype.h>
 
 //===============================================================//
 //========================= GLOBAL VAR ==========================//
@@ -150,7 +151,7 @@ void gameVerifications(int col, int line){
 }
 
 void game(){
-    char colChoice;
+    char colChoice, lineChoiceT[2];
     int lineChoice;
 
     system("cls");
@@ -178,7 +179,9 @@ void game(){
         //Vérification que la ligne choisie est entre 1 et 10
         do {
             printf("-> Ligne (1 à 10):");
-            scanf("%d", &lineChoice);
+            scanf("%s", &lineChoiceT);
+
+            lineChoice = strtol( lineChoiceT, NULL, 10);
 
             if (lineChoice < 1 || lineChoice > 10) {
                 printf("Vous devez choisir que des chiffres entre 1 et 10 !\n");
@@ -200,6 +203,7 @@ void game(){
 }
 
 void gameHelp(){
+    char menuChoiceT[2];
     int menuChoice = 0;
 
     while (menuChoice != 3) {
@@ -218,7 +222,8 @@ void gameHelp(){
                    "    3 - Revenir au menu principal\n"
                    "->"
             );
-            scanf("%d", &menuChoice);
+            scanf("%s", &menuChoiceT);
+            menuChoice = strtol( menuChoiceT, NULL, 10);
         }
 
         switch (menuChoice) {
@@ -232,7 +237,7 @@ void gameHelp(){
                        "|_| \\_\\|_____|\\____||_____||_____||____/");
 
                 printf("\n\n    Vous êtes face à une flotte de 5 bateaux. Celle-ci est composée d'un porte-avions (5 cases), d'un croiseur (4 cases), de deux contre-torpilleurs (2x 3 cases) et d'un torpilleur (2 cases).\n"
-                       "    Vous pouvez tirer autant de fois que vous le souhaitez tant que tout les bateaux adverses sont en vie.\n"
+                       "    Vous pouvez tirer autant de fois que vous le souhaitez tant qu'il y a des bateaux adverses sont en vie.\n"
                        "    A chaque coup, vous devez entrer la case sur laquelle vous souhaitez tier, par exemple B2 ou H6.\n"
                        "    Trois symboles peuvent apparaitre dans une case:\n"
                        "        - X : A l'eau\n"
@@ -298,6 +303,7 @@ int main() {
 
     // Declaration de variables
     int gameOn = 1, menuChoice = 0, test = 0;
+    char menuChoiceT[2];
 
     while (gameOn != 0) {
 
@@ -321,7 +327,8 @@ int main() {
                "Que souhaitez-vous faire :"
         );
 
-        scanf("%d",&menuChoice);
+        scanf("%s",&menuChoiceT);
+        menuChoice = strtol( menuChoiceT, NULL, 10);
 
         switch (menuChoice) {
             case 1:

@@ -31,6 +31,9 @@ char gameBoard[11][11] = {
 //==============================================================//
 
 //<editor-fold desc="Functions - BLOCK">
+/**
+ * gameBoard_Show est la fonction qui va permettre d'afficher le plateau du jeu.
+ */
 void gameBoard_Show(){
     // Afficher le tableau
     printf("\n        ╔═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╗\n");
@@ -59,6 +62,11 @@ void gameBoard_Show(){
     }
 }
 
+/**
+ * gameVerifications est la fonction qui va faire les vérifications des coordonnées entrées par rapport aux coordoonnées codées.
+ * @param col : Colonne entrée
+ * @param line : Ligne entrée
+ */
 void gameVerifications(int col, int line){
     // Verif si deja joué sinon, il fais les vérification
     if (gameBoard[col][line] == 'X' || gameBoard[col][line] == 'O' || gameBoard[col][line] == 'C'){
@@ -150,8 +158,11 @@ void gameVerifications(int col, int line){
     }
 }
 
+/**
+ * game est la fonction qui va permettre de faire tout le déroulement du jeu.
+ */
 void game(){
-    char colChoice, lineChoiceT[2];
+    char colChoice, lineChoiceT[3];
     int lineChoice;
 
     system("cls");
@@ -202,6 +213,9 @@ void game(){
     system("cls");
 }
 
+/**
+ * gameHelp est la fonction qui va permettre d'afficher l'aide de jeu.
+ */
 void gameHelp(){
     char menuChoiceT[2];
     int menuChoice = 0;
@@ -276,12 +290,11 @@ void gameHelp(){
         }
     }
 }
-//</editor-fold>
 
-int main() {
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleTitle("Bataille Navale - V0.1");
-
+/**
+ * keyboardSimulate est la fonction qui va simuler l'appuie d'une touche.
+ */
+void keyboardSimulate(){
     //Commande pour mettre le cmd en plein écran (provient de https://batchloaf.wordpress.com/2012/04/17/simulating-a-keystroke-in-win32-c-or-c-using-sendinput/)
     // input event
     INPUT ip;
@@ -300,10 +313,19 @@ int main() {
     // Simule le relâchement de la touche
     ip.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ip, sizeof(INPUT));
+}
+//</editor-fold>
+
+int main() {
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleTitle("Bataille Navale - V0.1");
+
+    // Fonction qui permet de simuler une touche du clavier (dans notre cas, F11)
+    keyboardSimulate();
 
     // Declaration de variables
     int gameOn = 1, menuChoice = 0, test = 0;
-    char menuChoiceT[2];
+    char menuChoiceT[3];
 
     while (gameOn != 0) {
 

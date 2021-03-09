@@ -1,3 +1,8 @@
+/*  Author     : Diogo da Silva Fernandes
+ *  Project    : BatailleNavale_V0.1
+ *  Last_Update: 09/03/2021
+ */
+
 #include <stdio.h>
 #include <windows.h>
 #include <ctype.h>
@@ -9,6 +14,9 @@
 //<editor-fold desc="Global var - BLOCK">
 // Declaration bateaux
 int nbrPorteAvion = 1, nbrCroiseur = 1, nbrContreTorpilleur = 2, nbrTorpilleur = 1;
+
+//Déclaration autres variables
+int nbrCoups = 0;
 
 // Declaration du tableau de jeu
 char gameBoard[11][11] = {
@@ -71,6 +79,7 @@ void gameVerifications(int col, int line){
     // Verif si deja joué sinon, il fais les vérification
     if (gameBoard[col][line] == 'X' || gameBoard[col][line] == 'O' || gameBoard[col][line] == 'C'){
         printf("\nVous avez déjà tenté cette case !\n\n");
+
     }else {
         // Verif coordonnées entrée par rapport au données des bateaux
 
@@ -78,6 +87,7 @@ void gameVerifications(int col, int line){
         if ((col == 10 && line == 6) || (col == 10 && line == 7) || (col == 10 && line == 8) ||
             (col == 10 && line == 9) || (col == 10 && line == 10)) {
             printf("\nVous avez touché le porte-avions ! Vous êtes sur la bonne voie !\n\n");
+            nbrCoups++;
             gameBoard[col][line] = 'O';
         }
 
@@ -85,6 +95,7 @@ void gameVerifications(int col, int line){
         else if ((col == 1 && line == 1) || (col == 2 && line == 1) || (col == 3 && line == 1) ||
                  (col == 4 && line == 1)) {
             printf("\nVous avez touché le croiseur ! Vous êtes sur la bonne voie !\n\n");
+            nbrCoups++;
             gameBoard[col][line] = 'O';
         }
 
@@ -92,18 +103,21 @@ void gameVerifications(int col, int line){
         else if (((col == 1 && line == 3) || (col == 1 && line == 4) || (col == 1 && line == 5)) ||
                  ((col == 7 && line == 7) || (col == 7 && line == 8) || (col == 7 && line == 9))) {
             printf("\nVous avez touché un des 2 contre-torpilleurs ! Vous êtes sur la bonne voie !\n\n");
+            nbrCoups++;
             gameBoard[col][line] = 'O';
         }
 
             // TORPILLEUR
         else if ((col == 1 && line == 10) || (col == 2 && line == 10)) {
             printf("\nVous avez touché le torpilleur ! Vous êtes sur la bonne voie !\n\n");
+            nbrCoups++;
             gameBoard[col][line] = 'O';
         }
 
             // SI RIEN TOUCHÉ
         else {
             printf("\nC'est dommage... Vous avez rien touché, mais ne vous découragez pas !\n\n");
+            nbrCoups++;
             gameBoard[col][line] = 'X';
         }
 
@@ -165,6 +179,15 @@ void game(){
     char colChoice, lineChoiceT[3];
     int lineChoice;
 
+    nbrCoups = 0;
+
+    // Réinitialise le tableau
+    for (int col = 1; col <= 10; ++col) {
+        for (int ligne = 1; ligne <= 10; ++ligne) {
+            gameBoard[col][ligne] = ' ';
+        }
+    }
+
     system("cls");
     printf(" ____                                ____  _                                _\n"
            "| __ )   ___   _ __   _ __    ___   / ___|| |__    __ _  _ __    ___  ___  | |\n"
@@ -204,10 +227,16 @@ void game(){
         system("PAUSE");
 
         system("cls");
-
     } while (nbrPorteAvion > 0 || nbrCroiseur > 0 || nbrContreTorpilleur > 0 || nbrTorpilleur > 0);
 
-    printf("BRAVO ! VOUS AVEZ GAGNÉ LA PARTIE !\n\nRetour au menu -> ");
+    printf(" ____   ____      _ __     __ ___    _  __     __ ___   _   _  ____      _ __     __ _____  _____   ____     _     ____  _   _  _____   _\n"
+           "| __ ) |  _ \\    / \\\\ \\   / // _ \\  | | \\ \\   / // _ \\ | | | |/ ___|    / \\\\ \\   / /| ____||__  /  / ___|   / \\   / ___|| \\ | || ____| | |\n"
+           "|  _ \\ | |_) |  / _ \\\\ \\ / /| | | | | |  \\ \\ / /| | | || | | |\\___ \\   / _ \\\\ \\ / / |  _|    / /  | |  _   / _ \\ | |  _ |  \\| ||  _|   | |\n"
+           "| |_) ||  _ <  / ___ \\\\ V / | |_| | |_|   \\ V / | |_| || |_| | ___) | / ___ \\\\ V /  | |___  / /_  | |_| | / ___ \\| |_| || |\\  || |___  |_|\n"
+           "|____/ |_| \\_\\/_/   \\_\\\\_/   \\___/  (_)    \\_/   \\___/  \\___/ |____/ /_/   \\_\\\\_/   |_____|/____|  \\____|/_/   \\_\\\\____||_| \\_||_____| (_)"
+           );
+    printf("\n\nNombre de tentatives: %d",nbrCoups);
+    printf("\n\nRetour au menu -> ");
     system("PAUSE");
 
     system("cls");
@@ -292,10 +321,10 @@ void gameHelp(){
 }
 
 /**
- * keyboardSimulate est la fonction qui va simuler l'appuie d'une touche.
+ * keyboardSimulate est la fonction qui va simuler l'appuie d'une touche (F11).
  */
 void keyboardSimulate(){
-    //Commande pour mettre le cmd en plein écran (provient de https://batchloaf.wordpress.com/2012/04/17/simulating-a-keystroke-in-win32-c-or-c-using-sendinput/)
+    //Fonction qui permet de mettre le cmd en plein écran (provient de https://batchloaf.wordpress.com/2012/04/17/simulating-a-keystroke-in-win32-c-or-c-using-sendinput/)
     // input event
     INPUT ip;
 
@@ -314,6 +343,30 @@ void keyboardSimulate(){
     ip.ki.dwFlags = KEYEVENTF_KEYUP;
     SendInput(1, &ip, sizeof(INPUT));
 }
+
+/**
+ * printMenuP est la fonction qui va afficher à l'utilisateur le menu principal.
+ */
+void printMenuP(){
+    printf(" ____          _          _  _  _         _   _                      _                  __     __ ___     _\n"
+           "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___            \\ \\   / // _ \\   / |\n"
+           "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\    _____   \\ \\ / /| | | |  | |\n"
+           "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/   |_____|   \\ V / | |_| |_ | |\n"
+           "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|              \\_/   \\___/(_)|_|\n"
+    );
+
+    printf("\n============================================================================================================\n"
+           " __  __  _____  _   _  _   _   ____   _   _       _  _____  _   _\n"
+           "|  \\/  || ____|| \\ | || | | | |  _ \\ | | | |     | || ____|| | | |\n"
+           "| |\\/| ||  _|  |  \\| || | | | | | | || | | |  _  | ||  _|  | | | |\n"
+           "| |  | || |___ | |\\  || |_| | | |_| || |_| | | |_| || |___ | |_| |\n"
+           "|_|  |_||_____||_| \\_| \\___/  |____/  \\___/   \\___/ |_____| \\___/\n\n"
+           "    1 - Jouer\n"
+           "    2 - Aide de Jeu\n"
+           "    3 - Quitter\n\n"
+           "Que souhaitez-vous faire :"
+    );
+}
 //</editor-fold>
 
 int main() {
@@ -330,26 +383,12 @@ int main() {
     while (gameOn != 0) {
 
         system("cls");
-        printf(" ____          _          _  _  _         _   _                      _                  __     __ ___     _\n"
-               "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___            \\ \\   / // _ \\   / |\n"
-               "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\    _____   \\ \\ / /| | | |  | |\n"
-               "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/   |_____|   \\ V / | |_| |_ | |\n"
-               "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|              \\_/   \\___/(_)|_|\n"
-        );
 
-        printf("\n============================================================================================================\n"
-               " __  __  _____  _   _  _   _   ____   _   _       _  _____  _   _\n"
-               "|  \\/  || ____|| \\ | || | | | |  _ \\ | | | |     | || ____|| | | |\n"
-               "| |\\/| ||  _|  |  \\| || | | | | | | || | | |  _  | ||  _|  | | | |\n"
-               "| |  | || |___ | |\\  || |_| | | |_| || |_| | | |_| || |___ | |_| |\n"
-               "|_|  |_||_____||_| \\_| \\___/  |____/  \\___/   \\___/ |_____| \\___/\n\n"
-               "    1 - Jouer\n"
-               "    2 - Aide de Jeu\n"
-               "    3 - Quitter\n\n"
-               "Que souhaitez-vous faire :"
-        );
+        printMenuP();
 
+        // Choix de l'utilisateur sur le menu principale (pris en char)
         scanf("%s",&menuChoiceT);
+        // Choix en char transformé en int
         menuChoice = strtol( menuChoiceT, NULL, 10);
 
         switch (menuChoice) {
@@ -357,6 +396,7 @@ int main() {
                 game();
                 menuChoice = 0;
                 break;
+
             case 2:
                 gameHelp();
                 menuChoice = 0;

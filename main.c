@@ -32,6 +32,20 @@ char gameBoard[11][11] = {
         {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
         {'J', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
 };
+
+char gameBoard_boats[11][11] = {
+        {' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
+        {'A', '1', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1'},
+        {'B', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1'},
+        {'C', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'D', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'E', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'F', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'G', ' ', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', ' '},
+        {'H', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'J', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', '1', '1'}
+};
 //</editor-fold>
 
 //==============================================================//
@@ -83,42 +97,14 @@ void gameVerifications(int col, int line){
     }else {
         // Verif coordonnées entrée par rapport au données des bateaux
 
-        // PORTE AVION
-        if ((col == 10 && line == 6) || (col == 10 && line == 7) || (col == 10 && line == 8) ||
-            (col == 10 && line == 9) || (col == 10 && line == 10)) {
-            printf("\nVous avez touché le porte-avions ! Vous êtes sur la bonne voie !\n\n");
-            nbrCoups++;
+        if (gameBoard_boats[col][line] == '1'){
             gameBoard[col][line] = 'O';
-        }
-
-            // CROISEUR
-        else if ((col == 1 && line == 1) || (col == 2 && line == 1) || (col == 3 && line == 1) ||
-                 (col == 4 && line == 1)) {
-            printf("\nVous avez touché le croiseur ! Vous êtes sur la bonne voie !\n\n");
+            printf("\nTOUCHÉ !\n\n");
             nbrCoups++;
-            gameBoard[col][line] = 'O';
-        }
-
-            // CONTRE-TORPILLEURS
-        else if (((col == 1 && line == 3) || (col == 1 && line == 4) || (col == 1 && line == 5)) ||
-                 ((col == 7 && line == 7) || (col == 7 && line == 8) || (col == 7 && line == 9))) {
-            printf("\nVous avez touché un des 2 contre-torpilleurs ! Vous êtes sur la bonne voie !\n\n");
-            nbrCoups++;
-            gameBoard[col][line] = 'O';
-        }
-
-            // TORPILLEUR
-        else if ((col == 1 && line == 10) || (col == 2 && line == 10)) {
-            printf("\nVous avez touché le torpilleur ! Vous êtes sur la bonne voie !\n\n");
-            nbrCoups++;
-            gameBoard[col][line] = 'O';
-        }
-
-            // SI RIEN TOUCHÉ
-        else {
-            printf("\nC'est dommage... Vous avez rien touché, mais ne vous découragez pas !\n\n");
-            nbrCoups++;
+        }else{
             gameBoard[col][line] = 'X';
+            printf("\nÀ L'EAU !\n\n");
+            nbrCoups++;
         }
 
         // Verif coordonnées entrée par rapport au données des bateaux (si toutes les coordonnées sont touchées !)
@@ -393,6 +379,7 @@ int main() {
 
         switch (menuChoice) {
             case 1:
+                nbrCoups = 0;
                 game();
                 menuChoice = 0;
                 break;

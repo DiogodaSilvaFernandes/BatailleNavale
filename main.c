@@ -19,32 +19,30 @@ int nbrPorteAvion = 1, nbrCroiseur = 1, nbrContreTorpilleur = 2, nbrTorpilleur =
 int nbrCoups = 0;
 
 // Declaration du tableau de jeu
-char gameBoard[11][11] = {
-        {' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
-        {'A', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'B', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'D', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'E', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'F', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'G', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'H', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'J', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+char gameBoard[10][10] = {
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
 };
 
-char gameBoard_boats[11][11] = {
-        {' ', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'},
-        {'A', '1', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1'},
-        {'B', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1'},
-        {'C', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'D', '1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'E', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'F', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'G', ' ', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', ' '},
-        {'H', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'J', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', '1', '1'}
+char gameBoard_boats[10][10] = {
+        {'1', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1'},
+        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1'},
+        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', '1', '1', '1', '1', '1'}
 };
 //</editor-fold>
 
@@ -60,28 +58,27 @@ void gameBoard_Show(){
     // Afficher le tableau
     printf("\n        ╔═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╗\n");
     printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
+    printf("        ║       ║   A   ║   B   ║   C   ║   D   ║   E   ║   F   ║   G   ║   H   ║   I   ║   J   ║\n");
+    printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
 
-    for (int col = 0; col < 11; ++col) {
-        printf("        ║");
+    for (int col = 0; col < 10; ++col) {
+        printf("        ╠═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣\n");
+        printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
 
-        for (int line = 0; line < 11; ++line) {
-            if (col == 10 && line == 0) {
-                printf("  10   ║");
-            } else {
-                printf("   %c   ║", gameBoard[line][col]);
-            }
+        if (col != 9) {
+            printf("        ║   %d   ", col + 1);
+        }else{
+            printf("        ║   %d  ", col + 1);
         }
 
-        printf("\n        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
-
-        if (col != 10) {
-            printf("        ╠═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣\n");
-            printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
-
-        } else {
-            printf("        ╚═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╝\n");
+        for (int line = 0; line < 10; ++line) {
+            printf("║   %c   ",gameBoard[col][line]);
         }
+        printf("║\n");
+        printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
     }
+
+    printf("        ╚═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╝\n");
 }
 
 /**
@@ -110,49 +107,49 @@ void gameVerifications(int col, int line){
         // Verif coordonnées entrée par rapport au données des bateaux (si toutes les coordonnées sont touchées !)
 
         // PORTE AVION
-        if (gameBoard[10][6] == 'O' && gameBoard[10][7] == 'O' && gameBoard[10][8] == 'O' && gameBoard[10][9] == 'O' &&
-            gameBoard[10][10] == 'O') {
+        if (gameBoard[9][5] == 'O' && gameBoard[9][6] == 'O' && gameBoard[9][7] == 'O' && gameBoard[9][8] == 'O' &&
+            gameBoard[9][9] == 'O') {
             printf("VOUS AVEZ FAIT COULÉ LE PORTE-AVIONS ! BIEN JOUÉ !\n\n");
-            gameBoard[10][6] = 'C';
-            gameBoard[10][7] = 'C';
-            gameBoard[10][8] = 'C';
-            gameBoard[10][9] = 'C';
-            gameBoard[10][10] = 'C';
+            gameBoard[9][5] = 'C';
+            gameBoard[9][6] = 'C';
+            gameBoard[9][7] = 'C';
+            gameBoard[9][8] = 'C';
+            gameBoard[9][9] = 'C';
             nbrPorteAvion -= 1;
         }
 
             // CROISEUR
-        else if (gameBoard[1][1] == 'O' && gameBoard[2][1] == 'O' && gameBoard[3][1] == 'O' && gameBoard[4][1] == 'O') {
+        else if (gameBoard[0][0] == 'O' && gameBoard[1][0] == 'O' && gameBoard[2][0] == 'O' && gameBoard[3][0] == 'O') {
             printf("VOUS AVEZ FAIT COULÉ LE CROISEUR ! BIEN JOUÉ !\n\n");
-            gameBoard[1][1] = 'C';
-            gameBoard[2][1] = 'C';
-            gameBoard[3][1] = 'C';
-            gameBoard[4][1] = 'C';
+            gameBoard[0][0] = 'C';
+            gameBoard[1][0] = 'C';
+            gameBoard[2][0] = 'C';
+            gameBoard[3][0] = 'C';
             nbrCroiseur -= 1;
         }
 
             // CONTRE-TORPILLEURS
-        else if ((gameBoard[1][3] == 'O' && gameBoard[1][4] == 'O' && gameBoard[1][5] == 'O') ||
-                 (gameBoard[7][7] == 'O' && gameBoard[7][8] == 'O' && gameBoard[7][9] == 'O')) {
+        else if ((gameBoard[0][2] == 'O' && gameBoard[0][3] == 'O' && gameBoard[0][4] == 'O') ||
+                 (gameBoard[6][6] == 'O' && gameBoard[6][7] == 'O' && gameBoard[6][8] == 'O')) {
             printf("VOUS AVEZ FAIT COULÉ UN DES CONTRE-TORPILLEURS ! BIEN JOUÉ !\n\n");
 
-            if (gameBoard[1][3] == 'O' && gameBoard[1][4] == 'O' && gameBoard[1][5] == 'O') {
-                gameBoard[1][3] = 'C';
-                gameBoard[1][4] = 'C';
-                gameBoard[1][5] = 'C';
+            if (gameBoard[0][2] == 'O' && gameBoard[0][3] == 'O' && gameBoard[0][4] == 'O') {
+                gameBoard[0][2] = 'C';
+                gameBoard[0][3] = 'C';
+                gameBoard[0][4] = 'C';
             } else {
-                gameBoard[7][7] = 'C';
-                gameBoard[7][8] = 'C';
-                gameBoard[7][9] = 'C';
+                gameBoard[6][6] = 'C';
+                gameBoard[6][7] = 'C';
+                gameBoard[6][8] = 'C';
             }
             nbrContreTorpilleur -= 1;
         }
 
             // TORPILLEUR
-        else if (gameBoard[1][10] == 'O' && gameBoard[2][10] == 'O') {
+        else if (gameBoard[0][9] == 'O' && gameBoard[1][9] == 'O') {
             printf("VOUS AVEZ FAIT COULÉ LE TORPILLEUR ! BIEN JOUÉ !\n\n");
-            gameBoard[1][10] = 'C';
-            gameBoard[2][10] = 'C';
+            gameBoard[0][9] = 'C';
+            gameBoard[1][9] = 'C';
             nbrTorpilleur -= 1;
         }
     }
@@ -208,8 +205,8 @@ void game(){
             }
         } while (lineChoice < 1 || lineChoice > 10);
 
-        if (colChoice >= 65 && colChoice <= 74) gameVerifications(colChoice-64,lineChoice);
-        else if (colChoice >= 97 && colChoice <= 106) gameVerifications(colChoice-96,lineChoice);
+        if (colChoice >= 65 && colChoice <= 74) gameVerifications(colChoice-65,lineChoice-1);
+        else if (colChoice >= 97 && colChoice <= 106) gameVerifications(colChoice-97,lineChoice-1);
 
         system("PAUSE");
 
@@ -364,7 +361,7 @@ int main() {
     keyboardSimulate();
 
     // Declaration de variables
-    int gameOn = 1, menuChoice = 0, test = 0;
+    int gameOn = 1, menuChoice = 0;
     char menuChoiceT[3];
 
     while (gameOn != 0) {
@@ -376,7 +373,7 @@ int main() {
         // Choix de l'utilisateur sur le menu principale (pris en char)
         scanf("%s",&menuChoiceT);
         // Choix en char transformé en int
-        menuChoice = strtol( menuChoiceT, NULL, 10);
+        menuChoice = strtol(menuChoiceT, NULL, 10);
 
         switch (menuChoice) {
             case 1:

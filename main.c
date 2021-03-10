@@ -188,13 +188,13 @@ void game(){
 
         //Vérification que la colone choisie est entre A et J
         do {
-            printf("\n\n-> Colonne (A à J -> En majuscule):");
+            printf("\n\n-> Colonne (A à J -> Majuscule et Minuscule):");
             scanf("%s", &colChoice);
 
-            if (colChoice < 65 || colChoice > 74) {
+            if ((colChoice < 65 || colChoice > 74) && (colChoice < 97 || colChoice > 106)) {
                 printf("Vous n'avez pas choisi une lettre en A et J !\n");
             }
-        } while (colChoice < 65 || colChoice > 74);
+        } while ((colChoice < 65 || colChoice > 74) && (colChoice < 97 || colChoice > 106));
 
         //Vérification que la ligne choisie est entre 1 et 10
         do {
@@ -208,7 +208,8 @@ void game(){
             }
         } while (lineChoice < 1 || lineChoice > 10);
 
-        gameVerifications(colChoice-64,lineChoice);
+        if (colChoice >= 65 && colChoice <= 74) gameVerifications(colChoice-64,lineChoice);
+        else if (colChoice >= 97 && colChoice <= 106) gameVerifications(colChoice-96,lineChoice);
 
         system("PAUSE");
 

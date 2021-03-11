@@ -365,7 +365,7 @@ int main() {
     char menuChoiceT[3];
 
     while (gameOn != 0) {
-
+        menuChoice = 0;
         system("cls");
 
         printMenuP();
@@ -379,12 +379,10 @@ int main() {
             case 1:
                 nbrCoups = 0;
                 game();
-                menuChoice = 0;
                 break;
 
             case 2:
                 gameHelp();
-                menuChoice = 0;
                 break;
 
             case 3:
@@ -392,7 +390,6 @@ int main() {
                 break;
 
             default:
-                menuChoice = 0;
                 break;
         }
     }

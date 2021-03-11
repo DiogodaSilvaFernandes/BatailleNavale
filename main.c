@@ -1,6 +1,6 @@
 /*  Author     : Diogo da Silva Fernandes
  *  Project    : BatailleNavale_V0.1
- *  Last_Update: 09/03/2021
+ *  Last_Update: 11/03/2021
  */
 
 #include <stdio.h>
@@ -72,7 +72,7 @@ void gameBoard_Show(){
         }
 
         for (int line = 0; line < 10; ++line) {
-            printf("║   %c   ",gameBoard[col][line]);
+            printf("║   %c   ",gameBoard[line][col]);
         }
         printf("║\n");
         printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");

@@ -1,6 +1,7 @@
 /*  Author     : Diogo da Silva Fernandes
- *  Project    : BatailleNavale_V0.1
+ *  Project    : BatailleNavale
  *  Last_Update: 11/03/2021
+ *  Version    : V0.1
  */
 
 #include <stdio.h>

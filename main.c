@@ -7,12 +7,15 @@
 #include <stdio.h>
 #include <windows.h>
 #include <ctype.h>
+#include <time.h>
 
 //===============================================================//
 //========================= GLOBAL VAR ==========================//
 //===============================================================//
 
 //<editor-fold desc="Global var - BLOCK">
+FILE *logs;
+
 // Declaration bateaux
 int nbrPorteAvion = 1, nbrCroiseur = 1, nbrContreTorpilleur = 2, nbrTorpilleur = 1;
 
@@ -52,6 +55,36 @@ char gameBoard_boats[10][10] = {
 //==============================================================//
 
 //<editor-fold desc="Functions - BLOCK">
+/**
+ * logsFunc est la fonction qui va permettre de créer, ouvrir et écrire dans le fichier logs.
+ * @param choice : choix (1:lancement jeu/2:autres)
+ * @param log : message à afficher dans les logs
+ */
+void logsFunc(int choice,char *log){
+    logs = fopen("logs.txt","a");
+
+    // code tiré de https://www.codevscolor.com/c-print-current-time-day-month-year
+    time_t s;
+    struct tm* current_time;
+    s=time(NULL);
+    current_time = localtime(&s);
+
+    switch (choice) {
+        case 1:
+            fprintf(logs,"--------------------%02d/%02d/%2d | %02d:%02d--------------------\n",current_time->tm_mday, current_time->tm_mon+1, current_time->tm_year+1900,current_time->tm_hour, current_time->tm_min);
+            fclose(logs);
+            break;
+
+        case 2:
+            fprintf(logs,"[%02d:%02d:%02d] %s\n",current_time->tm_hour, current_time->tm_min, current_time->tm_sec, log);
+            fclose(logs);
+            break;
+
+        default:
+            break;
+    }
+}
+
 /**
  * gameBoard_Show est la fonction qui va permettre d'afficher le plateau du jeu.
  */
@@ -223,7 +256,7 @@ void game(){
     printf("\n\nNombre de tentatives: %d",nbrCoups);
     printf("\n\nRetour au menu -> ");
     system("PAUSE");
-
+    logsFunc(2,"Fin de partie");
     system("cls");
 }
 
@@ -256,6 +289,7 @@ void gameHelp(){
 
         switch (menuChoice) {
             case 1:
+                logsFunc(2,"Affichage règles");
                 system("cls");
 
                 printf(" ____   _____  ____  _      _____  ____\n"
@@ -279,6 +313,7 @@ void gameHelp(){
                 break;
 
             case 2:
+                logsFunc(2,"Affichage techniques");
                 system("cls");
 
                 printf(" _____  _____  ____  _   _  _   _  ___  ___   _   _  _____  ____\n"
@@ -365,6 +400,8 @@ int main() {
     int gameOn = 1, menuChoice = 0;
     char menuChoiceT[3];
 
+    logsFunc(1,"");
+
     while (gameOn != 0) {
         menuChoice = 0;
         system("cls");
@@ -378,15 +415,18 @@ int main() {
 
         switch (menuChoice) {
             case 1:
+                logsFunc(2,"Lancement d'une partie");
                 nbrCoups = 0;
                 game();
                 break;
 
             case 2:
+                logsFunc(2,"Affichage menu aide de jeu");
                 gameHelp();
                 break;
 
             case 3:
+                logsFunc(2,"Quitte le jeu");
                 gameOn = 0;
                 break;
 

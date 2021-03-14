@@ -15,6 +15,7 @@
 
 //<editor-fold desc="Global var - BLOCK">
 FILE *logs;
+FILE *grille;
 
 // Declaration bateaux
 int nbrPorteAvion = 1, nbrCroiseur = 1, nbrContreTorpilleur = 2, nbrTorpilleur = 1;
@@ -37,16 +38,16 @@ char gameBoard[10][10] = {
 };
 
 char gameBoard_boats[10][10] = {
-        {'1', ' ', '1', '1', '1', ' ', ' ', ' ', ' ', '1'},
-        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '1'},
-        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {'1', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', ' ', '1', '1', '1', ' '},
         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
         {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-        {' ', ' ', ' ', ' ', ' ', '1', '1', '1', '1', '1'}
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+        {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
 };
 //</editor-fold>
 
@@ -82,6 +83,49 @@ void logsFunc(int choice,char *log){
 
         default:
             break;
+    }
+}
+
+void gameBoard_choice(){
+    // réinistialisation tableau bateaux
+    for (int col = 0; col < 10; ++col) {
+        for (int line = 0; line < 10; ++line) {
+            gameBoard_boats[line][col] = ' ';
+        }
+    }
+
+    // choix nombre aléatoire grille
+    int grilleChoix = 1 + rand() % 5;
+
+    switch (grilleChoix) {
+        case 1:
+            grille = fopen("../BatailleNavale_files/grille1.bndds","r");
+            break;
+
+        case 2:
+            grille = fopen("../BatailleNavale_files/grille2.bndds","r");
+            break;
+
+        case 3:
+            grille = fopen("../BatailleNavale_files/grille3.bndds","r");
+            break;
+
+        case 4:
+            grille = fopen("../BatailleNavale_files/grille4.bndds","r");
+            break;
+
+        case 5:
+            grille = fopen("../BatailleNavale_files/grille5.bndds","r");
+            break;
+
+        default:
+            break;
+    }
+
+    for (int col = 0; col < 10; ++col) {
+        for (int line = 0; line < 10; ++line) {
+            fscanf(grille,"%c",&gameBoard_boats[line][col]);
+        }
     }
 }
 
@@ -392,6 +436,7 @@ void printMenuP(){
 int main() {
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleTitle("Bataille Navale - V0.1");
+    srand( (unsigned)time( NULL ) );
 
     // Fonction qui permet de simuler une touche du clavier (dans notre cas, F11)
     keyboardSimulate();
@@ -416,6 +461,7 @@ int main() {
         switch (menuChoice) {
             case 1:
                 logsFunc(2,"Lancement d'une partie");
+                gameBoard_choice();
                 nbrCoups = 0;
                 game();
                 break;

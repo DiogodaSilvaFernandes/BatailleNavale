@@ -18,7 +18,7 @@ FILE *logs;
 FILE *grille;
 
 // Declaration bateaux
-int nbrPorteAvion = 1, nbrCroiseur = 1, nbrContreTorpilleur = 2, nbrTorpilleur = 1;
+int nbrPorteAvion = 5, nbrCroiseur = 4, nbrContreTorpilleur1 = 3, nbrContreTorpilleur = 3, nbrTorpilleur = 1;
 
 //Déclaration autres variables
 int nbrCoups = 0;
@@ -172,7 +172,32 @@ void gameVerifications(int col, int line){
     }else {
         // Verif coordonnées entrée par rapport au données des bateaux
 
-        if (gameBoard_boats[col][line] == '1'){
+        if (gameBoard_boats[col][line] == '2' || gameBoard_boats[col][line] == '3' || gameBoard_boats[col][line] == '4' || gameBoard_boats[col][line] == '5' || gameBoard_boats[col][line] == '6'){
+            switch (gameBoard_boats[col][line]) {
+                case '2':
+                    nbrTorpilleur -= 1;
+                    break;
+
+                case '3':
+                    nbrContreTorpilleur -= 1;
+                    break;
+
+                case '6':
+                    nbrContreTorpilleur1 -= 1;
+                    break;
+
+                case '4':
+                    nbrCroiseur -= 1;
+                    break;
+
+                case '5':
+                    nbrPorteAvion -= 1;
+                    break;
+
+                default:
+                    break;
+            }
+
             gameBoard[col][line] = 'O';
             printf("\nTOUCHÉ !\n\n");
             nbrCoups++;
@@ -184,52 +209,46 @@ void gameVerifications(int col, int line){
 
         // Verif coordonnées entrée par rapport au données des bateaux (si toutes les coordonnées sont touchées !)
 
-        // PORTE AVION
-        if (gameBoard[9][5] == 'O' && gameBoard[9][6] == 'O' && gameBoard[9][7] == 'O' && gameBoard[9][8] == 'O' &&
-            gameBoard[9][9] == 'O') {
-            printf("VOUS AVEZ FAIT COULÉ LE PORTE-AVIONS ! BIEN JOUÉ !\n\n");
-            gameBoard[9][5] = 'C';
-            gameBoard[9][6] = 'C';
-            gameBoard[9][7] = 'C';
-            gameBoard[9][8] = 'C';
-            gameBoard[9][9] = 'C';
-            nbrPorteAvion -= 1;
-        }
-
-            // CROISEUR
-        else if (gameBoard[0][0] == 'O' && gameBoard[1][0] == 'O' && gameBoard[2][0] == 'O' && gameBoard[3][0] == 'O') {
-            printf("VOUS AVEZ FAIT COULÉ LE CROISEUR ! BIEN JOUÉ !\n\n");
-            gameBoard[0][0] = 'C';
-            gameBoard[1][0] = 'C';
-            gameBoard[2][0] = 'C';
-            gameBoard[3][0] = 'C';
-            nbrCroiseur -= 1;
-        }
-
-            // CONTRE-TORPILLEURS
-        else if ((gameBoard[0][2] == 'O' && gameBoard[0][3] == 'O' && gameBoard[0][4] == 'O') ||
-                 (gameBoard[6][6] == 'O' && gameBoard[6][7] == 'O' && gameBoard[6][8] == 'O')) {
-            printf("VOUS AVEZ FAIT COULÉ UN DES CONTRE-TORPILLEURS ! BIEN JOUÉ !\n\n");
-
-            if (gameBoard[0][2] == 'O' && gameBoard[0][3] == 'O' && gameBoard[0][4] == 'O') {
-                gameBoard[0][2] = 'C';
-                gameBoard[0][3] = 'C';
-                gameBoard[0][4] = 'C';
-            } else {
-                gameBoard[6][6] = 'C';
-                gameBoard[6][7] = 'C';
-                gameBoard[6][8] = 'C';
+        if(nbrPorteAvion == 0){
+            for (int colv = 0; colv < 10; ++colv) {
+                for (int linev = 0; linev < 10; ++linev) {
+                    if (gameBoard_boats[colv][linev] == 5){
+                        gameBoard[colv][linev] = 'C';
+                    }
+                }
             }
-            nbrContreTorpilleur -= 1;
+
+        }else if (nbrCroiseur == 0){
+            
+
+        }else if (nbrContreTorpilleur == 0) {
+            for (int colv = 0; colv < 10; ++colv) {
+                for (int linev = 0; linev < 10; ++linev) {
+                    if (gameBoard_boats[colv][linev] == 3){
+                        gameBoard[colv][linev] = 'C';
+                    }
+                }
+            }
+
+        }else if (nbrContreTorpilleur1 == 0){
+            for (int colv = 0; colv < 10; ++colv) {
+                for (int linev = 0; linev < 10; ++linev) {
+                    if (gameBoard_boats[colv][linev] == 3){
+                        gameBoard[colv][linev] = 'C';
+                    }
+                }
+            }
+
+        }else if (nbrTorpilleur == 0){
+            for (int colv = 0; colv < 10; ++colv) {
+                for (int linev = 0; linev < 10; ++linev) {
+                    if (gameBoard_boats[colv][linev] == 2){
+                        gameBoard[colv][linev] = 'C';
+                    }
+                }
+            }
         }
 
-            // TORPILLEUR
-        else if (gameBoard[0][9] == 'O' && gameBoard[1][9] == 'O') {
-            printf("VOUS AVEZ FAIT COULÉ LE TORPILLEUR ! BIEN JOUÉ !\n\n");
-            gameBoard[0][9] = 'C';
-            gameBoard[1][9] = 'C';
-            nbrTorpilleur -= 1;
-        }
     }
 }
 
@@ -243,8 +262,8 @@ void game(){
     nbrCoups = 0;
 
     // Réinitialise le tableau
-    for (int col = 1; col <= 10; ++col) {
-        for (int ligne = 1; ligne <= 10; ++ligne) {
+    for (int col = 1; col < 10; ++col) {
+        for (int ligne = 1; ligne < 10; ++ligne) {
             gameBoard[col][ligne] = ' ';
         }
     }

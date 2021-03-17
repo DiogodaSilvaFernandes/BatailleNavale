@@ -18,7 +18,7 @@ FILE *logs;
 FILE *grille;
 
 // Declaration bateaux
-int nbrPorteAvion = 5, nbrCroiseur = 4, nbrContreTorpilleur1 = 3, nbrContreTorpilleur = 3, nbrTorpilleur = 1;
+int nbrPorteAvion = 5, nbrCroiseur = 4, nbrContreTorpilleur1 = 3, nbrContreTorpilleur = 3, nbrTorpilleur = 2;
 
 //Déclaration autres variables
 int nbrCoups = 0;
@@ -86,6 +86,9 @@ void logsFunc(int choice,char *log){
     }
 }
 
+/**
+ * gameBoard_choice est la fonction qui va choisir aléatoirement une grille de jeu.
+ */
 void gameBoard_choice(){
     // réinistialisation tableau bateaux
     for (int col = 0; col < 10; ++col) {
@@ -212,41 +215,57 @@ void gameVerifications(int col, int line){
         if(nbrPorteAvion == 0){
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
-                    if (gameBoard_boats[colv][linev] == 5){
+                    if (gameBoard_boats[colv][linev] == '5'){
                         gameBoard[colv][linev] = 'C';
                     }
                 }
             }
+            printf("\nCOULÉ !\n\n");
+            nbrPorteAvion = 10;
 
         }else if (nbrCroiseur == 0){
-            
+            for (int colv = 0; colv < 10; ++colv) {
+                for (int linev = 0; linev < 10; ++linev) {
+                    if (gameBoard_boats[colv][linev] == '4'){
+                        gameBoard[colv][linev] = 'C';
+                    }
+                }
+            }
+            printf("\nCOULÉ !\n\n");
+            nbrCroiseur = 10;
 
         }else if (nbrContreTorpilleur == 0) {
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
-                    if (gameBoard_boats[colv][linev] == 3){
+                    if (gameBoard_boats[colv][linev] == '3'){
                         gameBoard[colv][linev] = 'C';
                     }
                 }
             }
+            printf("\nCOULÉ !\n\n");
+            nbrContreTorpilleur = 10;
 
         }else if (nbrContreTorpilleur1 == 0){
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
-                    if (gameBoard_boats[colv][linev] == 3){
+                    if (gameBoard_boats[colv][linev] == '6'){
                         gameBoard[colv][linev] = 'C';
                     }
                 }
             }
+            printf("\nCOULÉ !\n\n");
+            nbrContreTorpilleur1 = 10;
 
         }else if (nbrTorpilleur == 0){
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
-                    if (gameBoard_boats[colv][linev] == 2){
+                    if (gameBoard_boats[colv][linev] == '2'){
                         gameBoard[colv][linev] = 'C';
                     }
                 }
             }
+            printf("\nCOULÉ !\n\n");
+            nbrTorpilleur = 10;
         }
 
     }
@@ -301,14 +320,13 @@ void game(){
                 printf("Vous devez choisir que des chiffres entre 1 et 10 !\n");
             }
         } while (lineChoice < 1 || lineChoice > 10);
-
         if (colChoice >= 65 && colChoice <= 74) gameVerifications(colChoice-65,lineChoice-1);
         else if (colChoice >= 97 && colChoice <= 106) gameVerifications(colChoice-97,lineChoice-1);
 
         system("PAUSE");
 
         system("cls");
-    } while (nbrPorteAvion > 0 || nbrCroiseur > 0 || nbrContreTorpilleur > 0 || nbrTorpilleur > 0);
+    } while (nbrPorteAvion != 10 || nbrCroiseur != 10 || nbrContreTorpilleur != 10 || nbrContreTorpilleur1 != 10 || nbrTorpilleur != 10);
 
     printf(" ____   ____      _ __     __ ___    _  __     __ ___   _   _  ____      _ __     __ _____  _____   ____     _     ____  _   _  _____   _\n"
            "| __ ) |  _ \\    / \\\\ \\   / // _ \\  | | \\ \\   / // _ \\ | | | |/ ___|    / \\\\ \\   / /| ____||__  /  / ___|   / \\   / ___|| \\ | || ____| | |\n"

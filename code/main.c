@@ -76,6 +76,56 @@ void logsFunc(char *log){
     fclose(logs);
 }
 
+void scoresFunc(int choice){
+    FILE *scoreEcr = fopen("../../BatailleNavale_files/scores.txt","a");
+    FILE *scoreLect = fopen("../../BatailleNavale_files/scores.txt","r");
+
+    int numLigne = 1;
+
+    // code tiré de https://www.codevscolor.com/c-print-current-time-day-month-year
+    time_t s;
+    struct tm* current_time;
+    s=time(NULL);
+    current_time = localtime(&s);
+
+    switch (choice) {
+
+        case 1:
+            fprintf(scoreEcr,"%s: %d coups, %02d/%02d/%2d\n", username, nbrCoups, current_time->tm_mday, current_time->tm_mon+1, current_time->tm_year+1900);
+            fclose(scoreEcr);
+            break;
+
+        case 2:
+            system("cls");
+            printf(" ____    ____  ___   ____   _____  ____\n"
+                   "/ ___|  / ___|/ _ \\ |  _ \\ | ____|/ ___|\n"
+                   "\\___ \\ | |   | | | || |_) ||  _|  \\___ \\\n"
+                   " ___) || |___| |_| ||  _ < | |___  ___) |\n"
+                   "|____/  \\____|\\___/ |_| \\_\\|_____||____/\n\n"
+                   "        Les scores précédents:\n"
+            );
+
+            char c = fgetc(scoreLect);
+            printf("            %d) ", numLigne);
+            while (c != EOF){
+                printf("%c",c);
+                c = fgetc(scoreLect);
+                
+                if (c == '\n'){
+                    numLigne++;
+                    printf("\n            %d) ", numLigne);
+                }
+            }
+
+            printf("\n\nRetour au menu -> ");
+            system("Pause");
+            break;
+
+        default:
+            break;
+    }
+}
+
 /**
  * gameBoard_choice est la fonction qui va choisir aléatoirement une grille de jeu.
  */
@@ -328,6 +378,7 @@ void game(){
     );
     printf("\n\nBien joué %s !\n", username);
     printf("Nombre de tentatives: %d",nbrCoups);
+    scoresFunc(1);
     printf("\n\nRetour au menu -> ");
     system("PAUSE");
     logsFunc("Fin de partie");
@@ -456,8 +507,9 @@ void printMenuP(){
            "| |  | || |___ | |\\  || |_| | | |_| || |_| | | |_| || |___ | |_| |\n"
            "|_|  |_||_____||_| \\_| \\___/  |____/  \\___/   \\___/ |_____| \\___/\n\n"
            "    1 - Jouer\n"
-           "    2 - Aide de Jeu\n"
-           "    3 - Quitter\n\n"
+           "    2 - Scores\n"
+           "    3 - Aide de Jeu\n"
+           "    4 - Quitter\n\n"
            "Que souhaitez-vous faire :"
     );
 }
@@ -536,11 +588,16 @@ int main() {
                 break;
 
             case 2:
+                logsFunc("Affichage des scores");
+                scoresFunc(2);
+                break;
+
+            case 3:
                 logsFunc("Affichage menu aide de jeu");
                 gameHelp();
                 break;
 
-            case 3:
+            case 4:
                 logsFunc("Quitte le jeu");
                 gameOn = 0;
                 break;

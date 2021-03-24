@@ -1,7 +1,8 @@
-/*  Author     : Diogo da Silva Fernandes
- *  Project    : BatailleNavale
- *  Last_Update: 23/03/2021
- *  Version    : V0.1
+/*  Author      : Diogo da Silva Fernandes
+ *  Project     : BatailleNavale
+ *  Last_Update : 24/03/2021
+ *  Version     : V1
+ *  Description : Jeu de la Bataille Navale, développée en C pendant les modules I-CT 431 et MA-20.
  */
 
 #include <stdio.h>
@@ -76,11 +77,17 @@ void logsFunc(char *log){
     fclose(logs);
 }
 
+/**
+ * scoresFunc est la fonction qui va permettre, dépendant du @param choice, d'enregistrer un scores ou afficher les scores précédents.
+ * @param choice : Choix (1:enregistrement/2:affichage)
+ */
 void scoresFunc(int choice){
-    FILE *scoreEcr = fopen("../../BatailleNavale_files/scores.txt","a");
-    FILE *scoreLect = fopen("../../BatailleNavale_files/scores.txt","r");
+    FILE *scoreEcr = fopen("../../BatailleNavale_files/scores.bndds","a");
+    FILE *scoreLect = fopen("../../BatailleNavale_files/scores.bndds","r");
 
     int numLigne = 1;
+
+    char c;
 
     // code tiré de https://www.codevscolor.com/c-print-current-time-day-month-year
     time_t s;
@@ -90,11 +97,13 @@ void scoresFunc(int choice){
 
     switch (choice) {
 
+        // Enregistrement d'un score
         case 1:
-            fprintf(scoreEcr,"%s: %d coups, %02d/%02d/%2d\n", username, nbrCoups, current_time->tm_mday, current_time->tm_mon+1, current_time->tm_year+1900);
+            fprintf(scoreEcr,"%s: %d coups, %02d/%02d/%2d-", username, nbrCoups, current_time->tm_mday, current_time->tm_mon+1, current_time->tm_year+1900);
             fclose(scoreEcr);
             break;
 
+        // Affichage des scores
         case 2:
             system("cls");
             printf(" ____    ____  ___   ____   _____  ____\n"
@@ -102,23 +111,34 @@ void scoresFunc(int choice){
                    "\\___ \\ | |   | | | || |_) ||  _|  \\___ \\\n"
                    " ___) || |___| |_| ||  _ < | |___  ___) |\n"
                    "|____/  \\____|\\___/ |_| \\_\\|_____||____/\n\n"
-                   "        Les scores précédents:\n"
+                   "        Les scores précédents:"
             );
 
-            char c = fgetc(scoreLect);
-            printf("            %d) ", numLigne);
-            while (c != EOF){
-                printf("%c",c);
-                c = fgetc(scoreLect);
-                
-                if (c == '\n'){
+            c = fgetc(scoreLect);
+            printf("\n            %d) ", numLigne);
+
+            //tant que la lecture du fichier n'est pas arrivée à la fin
+            while (c != EOF) {
+                //Si elle arrive à la fin d'un score
+                if (c != '-') {
+                    printf("%c", c);
+                    c = fgetc(scoreLect);
+
+                //Sinon elle va passer à la lecture du score suivant
+                }else{
                     numLigne++;
-                    printf("\n            %d) ", numLigne);
+                    c = fgetc(scoreLect);
+                    if (c == EOF){
+                        break;
+                    }else {
+                        printf("\n            %d) ", numLigne);
+                    }
                 }
             }
 
             printf("\n\nRetour au menu -> ");
             system("Pause");
+            numLigne = 1;
             break;
 
         default:
@@ -320,11 +340,11 @@ void game(){
     char colChoice, lineChoiceT[3];
     int lineChoice;
 
-    nbrCoups = 0;
+    nbrCoups = 0; nbrTorpilleur = 2; nbrContreTorpilleur = 3; nbrContreTorpilleur1 = 3; nbrCroiseur = 4; nbrPorteAvion = 5;
 
     // Réinitialise le tableau
-    for (int col = 1; col < 10; ++col) {
-        for (int ligne = 1; ligne < 10; ++ligne) {
+    for (int col = 0; col < 10; ++col) {
+        for (int ligne = 0; ligne < 10; ++ligne) {
             gameBoard[col][ligne] = ' ';
         }
     }
@@ -555,7 +575,8 @@ void connexion(){
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
-    SetConsoleTitle("Bataille Navale - V0.1");
+    SetConsoleTitle("Bataille Navale - V1");
+    //Réinistialise la valeur de grille aléatoire
     srand( (unsigned)time( NULL ) );
 
     // Fonction qui permet de simuler une touche du clavier (dans notre cas, F11)

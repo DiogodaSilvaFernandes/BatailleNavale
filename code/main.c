@@ -1,6 +1,6 @@
 /*  Author      : Diogo da Silva Fernandes
  *  Project     : BatailleNavale
- *  Last_Update : 24/03/2021
+ *  Last_Update : 25/03/2021
  *  Version     : V1
  *  Description : Jeu de la Bataille Navale, développée en C pendant les modules I-CT 431 et MA-20.
  */
@@ -82,8 +82,8 @@ void logsFunc(char *log){
  * @param choice : Choix (1:enregistrement/2:affichage)
  */
 void scoresFunc(int choice){
-    FILE *scoreEcr = fopen("../../BatailleNavale_files/scores.bndds","a");
-    FILE *scoreLect = fopen("../../BatailleNavale_files/scores.bndds","r");
+    FILE *scoreEcr = fopen("BatailleNavale_files/scores.bndds","a");
+    FILE *scoreLect = fopen("BatailleNavale_files/scores.bndds","r");
 
     int numLigne = 1;
 
@@ -115,25 +115,30 @@ void scoresFunc(int choice){
             );
 
             c = fgetc(scoreLect);
-            printf("\n            %d) ", numLigne);
 
-            //tant que la lecture du fichier n'est pas arrivée à la fin
-            while (c != EOF) {
-                //Si elle arrive à la fin d'un score
-                if (c != '-') {
-                    printf("%c", c);
-                    c = fgetc(scoreLect);
+            if (c != EOF) {
+                printf("\n            %d) ", numLigne);
 
-                //Sinon elle va passer à la lecture du score suivant
-                }else{
-                    numLigne++;
-                    c = fgetc(scoreLect);
-                    if (c == EOF){
-                        break;
-                    }else {
-                        printf("\n            %d) ", numLigne);
+                //tant que la lecture du fichier n'est pas arrivée à la fin
+                while (c != EOF) {
+                    //Si elle arrive à la fin d'un score
+                    if (c != '-') {
+                        printf("%c", c);
+                        c = fgetc(scoreLect);
+
+                        //Sinon elle va passer à la lecture du score suivant
+                    } else {
+                        numLigne++;
+                        c = fgetc(scoreLect);
+                        if (c == EOF) {
+                            break;
+                        } else {
+                            printf("\n            %d) ", numLigne);
+                        }
                     }
                 }
+            }else{
+                printf("\n            Aucun score trouvé !");
             }
 
             printf("\n\nRetour au menu -> ");
@@ -164,23 +169,23 @@ void gameBoard_choice(){
 
     switch (grilleChoix) {
         case 1:
-            grille = fopen("../../BatailleNavale_files/grille1.bndds","r");
+            grille = fopen("BatailleNavale_files/grille1.bndds","r");
             break;
 
         case 2:
-            grille = fopen("../../BatailleNavale_files/grille2.bndds","r");
+            grille = fopen("/BatailleNavale_files/grille2.bndds","r");
             break;
 
         case 3:
-            grille = fopen("../../BatailleNavale_files/grille3.bndds","r");
+            grille = fopen("BatailleNavale_files/grille3.bndds","r");
             break;
 
         case 4:
-            grille = fopen("../../BatailleNavale_files/grille4.bndds","r");
+            grille = fopen("BatailleNavale_files/grille4.bndds","r");
             break;
 
         case 5:
-            grille = fopen("../../BatailleNavale_files/grille5.bndds","r");
+            grille = fopen("BatailleNavale_files/grille5.bndds","r");
             break;
 
         default:
@@ -444,13 +449,13 @@ void gameHelp(){
                        "|_| \\_\\|_____|\\____||_____||_____||____/");
 
                 printf("\n\n    Vous êtes face à une flotte de 5 bateaux. Celle-ci est composée d'un porte-avions (5 cases), d'un croiseur (4 cases), de deux contre-torpilleurs (2x 3 cases) et d'un torpilleur (2 cases).\n"
-                       "    Vous pouvez tirer autant de fois que vous le souhaitez tant qu'il y a des bateaux adverses sont en vie.\n"
+                       "    Vous pouvez tirer autant de fois que vous le souhaitez tant qu'il y a des bateaux adverses en vie.\n"
                        "    A chaque coup, vous devez entrer la case sur laquelle vous souhaitez tier, par exemple B2 ou H6.\n"
                        "    Trois symboles peuvent apparaitre dans une case:\n"
                        "        - X : A l'eau\n"
                        "        - O : Touché\n"
                        "        - C : Coulé\n"
-                       "    Vous ne pouvez que tirer qu'une seule fois par case !\n\n"
+                       "    Vous ne pouvez tirer qu'une seule fois par case !\n\n"
                        "Retour au menu -> "
                 );
                 system("PAUSE");
@@ -471,6 +476,10 @@ void gameHelp(){
                        "        Elle consiste à viser aléatoirement une case jusqu'à toucher un bateau.\n"
                        "        Une fois touché, vous devez vous acharner sur les cases aux alentours jusqu'à couler le bateau.\n"
                        "        Dès le bateau coulé, on recommence !\n\n"
+                       "    La croix:\n"
+                       "        Cette technique consiste à tirer sur plusieurs cases formant le dessin d'une croix.\n"
+                       "        Vous avez 2 styles de croix à faire: X ou +. La croix X offre plus de chances mais fais beaucoup plus de tir."
+                       "        Cette technique n'est pas la meilleure, votre score de coups sera assez élevé.\n\n"
                        "    D'autres techniques arriveront...\n\n"
                        "Retour au menu -> "
                 );
@@ -513,11 +522,11 @@ void keyboardSimulate(){
  * printMenuP est la fonction qui va afficher à l'utilisateur le menu principal.
  */
 void printMenuP(){
-    printf(" ____          _          _  _  _         _   _                      _                  __     __ ___     _\n"
-           "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___            \\ \\   / // _ \\   / |\n"
-           "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\    _____   \\ \\ / /| | | |  | |\n"
-           "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/   |_____|   \\ V / | |_| |_ | |\n"
-           "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|              \\_/   \\___/(_)|_|\n"
+    printf(" ____          _          _  _  _         _   _                      _        __     __ _\n"
+           "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___        \\ \\   / // |\n"
+           "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\_____   \\ \\ / / | |\n"
+           "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/|_____|   \\ V /  | |\n"
+           "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|           \\_/   |_|"
     );
 
     printf("\n============================================================================================================\n"

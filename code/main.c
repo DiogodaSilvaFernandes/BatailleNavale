@@ -59,6 +59,82 @@ char gameBoard_boats[10][10] = {
 
 //<editor-fold desc="Functions - BLOCK">
 /**
+ * music est la fonction qui va permettre d'avoir une musique d'arrière plan. (Inspiré du code d'Eliott Jaquier, SI-C2b)
+ * @param choiceM
+ */
+void music(int choiceM){
+    switch (choiceM) {
+        case 1:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id start /stopbyid ./BatailleNavale_files/sounds/background.wav");
+            break;
+
+        case 2:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/choice.wav");
+            break;
+
+        case 3:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/loading.wav");
+            break;
+
+        case 4:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/eau.wav");
+            break;
+
+        case 5:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/eau.wav");
+            break;
+
+        case 6:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/coule.wav");
+            break;
+
+        case 8:
+        default:
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /stop");
+            break;
+    }
+}
+
+void loading(){
+    music(3);
+    printf("\033[0;36m");
+    for (int i = 0; i < 2; ++i) {
+        printf("  ____  _                                                       _\n"
+               " / ___|| |__    __ _  _ __  __ _   ___  _ __ ___    ___  _ __  | |_\n"
+               "| |    | '_ \\  / _` || '__|/ _` | / _ \\| '_ ` _ \\  / _ \\| '_ \\ | __|\n"
+               "| |___ | | | || (_| || |  | (_| ||  __/| | | | | ||  __/| | | || |_  _\n"
+               " \\____||_| |_| \\__,_||_|   \\__, | \\___||_| |_| |_| \\___||_| |_| \\__|(_)\n"
+               "                           |___/");
+        Sleep(1000);
+
+        system("cls");
+
+        printf("  ____  _                                                       _\n"
+               " / ___|| |__    __ _  _ __  __ _   ___  _ __ ___    ___  _ __  | |_\n"
+               "| |    | '_ \\  / _` || '__|/ _` | / _ \\| '_ ` _ \\  / _ \\| '_ \\ | __|\n"
+               "| |___ | | | || (_| || |  | (_| ||  __/| | | | | ||  __/| | | || |_  _  _\n"
+               " \\____||_| |_| \\__,_||_|   \\__, | \\___||_| |_| |_| \\___||_| |_| \\__|(_)(_)\n"
+               "                           |___/");
+        Sleep(1000);
+
+        system("cls");
+
+        printf("  ____  _                                                       _\n"
+               " / ___|| |__    __ _  _ __  __ _   ___  _ __ ___    ___  _ __  | |_\n"
+               "| |    | '_ \\  / _` || '__|/ _` | / _ \\| '_ ` _ \\  / _ \\| '_ \\ | __|\n"
+               "| |___ | | | || (_| || |  | (_| ||  __/| | | | | ||  __/| | | || |_  _  _  _\n"
+               " \\____||_| |_| \\__,_||_|   \\__, | \\___||_| |_| |_| \\___||_| |_| \\__|(_)(_)(_)\n"
+               "                           |___/");
+
+        Sleep(1000);
+
+        system("cls");
+    }
+    printf("\033[0;37m");
+    music(4);
+}
+
+/**
  * logsFunc est la fonction qui va permettre de créer, ouvrir et écrire dans le fichier logs.
  * @param choice : choix (1:lancement jeu/2:autres)
  * @param log : message à afficher dans les logs
@@ -82,8 +158,8 @@ void logsFunc(char *log){
  * @param choice : Choix (1:enregistrement/2:affichage)
  */
 void scoresFunc(int choice){
-    FILE *scoreEcr = fopen("BatailleNavale_files/scores.bndds","a");
-    FILE *scoreLect = fopen("BatailleNavale_files/scores.bndds","r");
+    FILE *scoreEcr = fopen("BatailleNavale_files/userFiles/scores.bndds","a");
+    FILE *scoreLect = fopen("BatailleNavale_files/userFiles/scores.bndds","r");
 
     int numLigne = 1;
 
@@ -143,6 +219,7 @@ void scoresFunc(int choice){
 
             printf("\n\nRetour au menu -> ");
             system("Pause");
+            music(2);
             numLigne = 1;
             break;
 
@@ -169,23 +246,23 @@ void gameBoard_choice(){
 
     switch (grilleChoix) {
         case 1:
-            grille = fopen("BatailleNavale_files/grille1.bndds","r");
+            grille = fopen("BatailleNavale_files/maps/grille1.bndds","r");
             break;
 
         case 2:
-            grille = fopen("/BatailleNavale_files/grille2.bndds","r");
+            grille = fopen("/BatailleNavale_files/maps/grille2.bndds","r");
             break;
 
         case 3:
-            grille = fopen("BatailleNavale_files/grille3.bndds","r");
+            grille = fopen("BatailleNavale_files/maps/grille3.bndds","r");
             break;
 
         case 4:
-            grille = fopen("BatailleNavale_files/grille4.bndds","r");
+            grille = fopen("BatailleNavale_files/maps/grille4.bndds","r");
             break;
 
         case 5:
-            grille = fopen("BatailleNavale_files/grille5.bndds","r");
+            grille = fopen("BatailleNavale_files/maps/grille5.bndds","r");
             break;
 
         default:
@@ -241,7 +318,7 @@ void gameVerifications(int col, int line){
 
     }else {
         // Verif coordonnées entrée par rapport au données des bateaux
-
+        music(5);
         if (gameBoard_boats[col][line] == '2' || gameBoard_boats[col][line] == '3' || gameBoard_boats[col][line] == '4' || gameBoard_boats[col][line] == '5' || gameBoard_boats[col][line] == '6'){
             switch (gameBoard_boats[col][line]) {
                 case '2':
@@ -272,6 +349,7 @@ void gameVerifications(int col, int line){
             printf("\nTOUCHÉ !\n\n");
             nbrCoups++;
         }else{
+            music(4);
             gameBoard[col][line] = 'X';
             printf("\nÀ L'EAU !\n\n");
             nbrCoups++;
@@ -280,6 +358,7 @@ void gameVerifications(int col, int line){
         // Verif coordonnées entrée par rapport au données des bateaux (si toutes les coordonnées sont touchées !)
 
         if(nbrPorteAvion == 0){
+            music(6);
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
                     if (gameBoard_boats[colv][linev] == '5'){
@@ -291,6 +370,7 @@ void gameVerifications(int col, int line){
             nbrPorteAvion = 10;
 
         }else if (nbrCroiseur == 0){
+            music(6);
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
                     if (gameBoard_boats[colv][linev] == '4'){
@@ -302,6 +382,7 @@ void gameVerifications(int col, int line){
             nbrCroiseur = 10;
 
         }else if (nbrContreTorpilleur == 0) {
+            music(6);
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
                     if (gameBoard_boats[colv][linev] == '3'){
@@ -313,6 +394,7 @@ void gameVerifications(int col, int line){
             nbrContreTorpilleur = 10;
 
         }else if (nbrContreTorpilleur1 == 0){
+            music(6);
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
                     if (gameBoard_boats[colv][linev] == '6'){
@@ -324,6 +406,7 @@ void gameVerifications(int col, int line){
             nbrContreTorpilleur1 = 10;
 
         }else if (nbrTorpilleur == 0){
+            music(6);
             for (int colv = 0; colv < 10; ++colv) {
                 for (int linev = 0; linev < 10; ++linev) {
                     if (gameBoard_boats[colv][linev] == '2'){
@@ -435,6 +518,7 @@ void gameHelp(){
             );
             scanf("%s", &menuChoiceT);
             menuChoice = strtol( menuChoiceT, NULL, 10);
+            music(2);
         }
 
         switch (menuChoice) {
@@ -459,6 +543,7 @@ void gameHelp(){
                        "Retour au menu -> "
                 );
                 system("PAUSE");
+                music(2);
                 menuChoice = 0;
                 break;
 
@@ -484,6 +569,7 @@ void gameHelp(){
                        "Retour au menu -> "
                 );
                 system("PAUSE");
+                music(2);
                 menuChoice = 0;
 
                 break;
@@ -522,11 +608,11 @@ void keyboardSimulate(){
  * printMenuP est la fonction qui va afficher à l'utilisateur le menu principal.
  */
 void printMenuP(){
-    printf(" ____          _          _  _  _         _   _                      _        __     __ _\n"
-           "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___        \\ \\   / // |\n"
-           "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\_____   \\ \\ / / | |\n"
-           "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/|_____|   \\ V /  | |\n"
-           "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|           \\_/   |_|"
+    printf(" ____          _          _  _  _         _   _                      _                __     __ _\n"
+           "| __ )   __ _ | |_  __ _ (_)| || |  ___  | \\ | |  __ _ __   __ __ _ | |  ___          \\ \\   / // |\n"
+           "|  _ \\  / _` || __|/ _` || || || | / _ \\ |  \\| | / _` |\\ \\ / // _` || | / _ \\  _____   \\ \\ / / | |\n"
+           "| |_) || (_| || |_| (_| || || || ||  __/ | |\\  || (_| | \\ V /| (_| || ||  __/ |_____|   \\ V /  | |\n"
+           "|____/  \\__,_| \\__|\\__,_||_||_||_| \\___| |_| \\_| \\__,_|  \\_/  \\__,_||_| \\___|            \\_/   |_|"
     );
 
     printf("\n============================================================================================================\n"
@@ -595,6 +681,9 @@ int main() {
     int gameOn = 1, menuChoice = 0;
     char menuChoiceT[3];
 
+    loading();
+
+    music(1);
     connexion();
 
     while (gameOn != 0) {
@@ -608,6 +697,7 @@ int main() {
         scanf("%s",&menuChoiceT);
         // Choix en char transformé en int
         menuChoice = strtol(menuChoiceT, NULL, 10);
+        music(2);
 
         switch (menuChoice) {
             case 1:
@@ -629,6 +719,7 @@ int main() {
 
             case 4:
                 logsFunc("Quitte le jeu");
+                music(8);
                 gameOn = 0;
                 break;
 

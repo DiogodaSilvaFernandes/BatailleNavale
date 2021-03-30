@@ -64,26 +64,32 @@ char gameBoard_boats[10][10] = {
  */
 void music(int choiceM){
     switch (choiceM) {
+        // Musique fond
         case 1:
             system("start /min ./BatailleNavale_files/sounds/sounder.exe /id start /stopbyid ./BatailleNavale_files/sounds/background.wav");
             break;
 
+        // Effet clic
         case 2:
             system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/choice.wav");
             break;
 
+        // Musique chargement
         case 3:
             system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/loading.wav");
             break;
 
+        // Effet à l'eau
         case 4:
             system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/eau.wav");
             break;
 
+        // Effet touché
         case 5:
-            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/eau.wav");
+            system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/touche.wav");
             break;
 
+        // Effet coulé
         case 6:
             system("start /min ./BatailleNavale_files/sounds/sounder.exe /id choice /stopbyid ./BatailleNavale_files/sounds/coule.wav");
             break;
@@ -95,8 +101,11 @@ void music(int choiceM){
     }
 }
 
+/**
+ * loading est la fonction qui va permettre d'afficher un chargement.
+ */
 void loading(){
-    music(3);
+    // Changement de la couleur du text en bleu
     printf("\033[0;36m");
     for (int i = 0; i < 2; ++i) {
         printf("  ____  _                                                       _\n"
@@ -130,8 +139,8 @@ void loading(){
 
         system("cls");
     }
+    // Changement de la couleur du text en blanc
     printf("\033[0;37m");
-    music(4);
 }
 
 /**
@@ -143,6 +152,7 @@ void logsFunc(char *log){
     FILE *logs;
     logs = fopen("logs.txt","a");
 
+    // Permet de récupérer la date/heure
     // code tiré de https://www.codevscolor.com/c-print-current-time-day-month-year
     time_t s;
     struct tm* current_time;
@@ -165,6 +175,7 @@ void scoresFunc(int choice){
 
     char c;
 
+    // Permet de récupérer la date/heure
     // code tiré de https://www.codevscolor.com/c-print-current-time-day-month-year
     time_t s;
     struct tm* current_time;
@@ -192,6 +203,7 @@ void scoresFunc(int choice){
 
             c = fgetc(scoreLect);
 
+            // Si le premier caractère récupérer du fichier est différent de la fin du fichier, il va lire dans le fichier, sinon, il va dire qu'il y a aucun score trouvé.
             if (c != EOF) {
                 printf("\n            %d) ", numLigne);
 
@@ -297,7 +309,20 @@ void gameBoard_Show(){
         }
 
         for (int line = 0; line < 10; ++line) {
-            printf("║   %c   ",gameBoard[line][col]);
+            printf("║   ");
+            if (gameBoard[line][col] == 'O'){
+                printf("\033[0;34m");
+            }else if(gameBoard[line][col] == 'X'){
+                printf("\033[0;33m");
+            }else if(gameBoard[line][col] == 'C'){
+                printf("\033[0;31m");
+            }
+
+            printf("%c",gameBoard[line][col]);
+
+            printf("\033[0;37m");
+
+            printf("   ");
         }
         printf("║\n");
         printf("        ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║       ║\n");
@@ -318,7 +343,6 @@ void gameVerifications(int col, int line){
 
     }else {
         // Verif coordonnées entrée par rapport au données des bateaux
-        music(5);
         if (gameBoard_boats[col][line] == '2' || gameBoard_boats[col][line] == '3' || gameBoard_boats[col][line] == '4' || gameBoard_boats[col][line] == '5' || gameBoard_boats[col][line] == '6'){
             switch (gameBoard_boats[col][line]) {
                 case '2':
@@ -345,12 +369,13 @@ void gameVerifications(int col, int line){
                     break;
             }
 
-            gameBoard[col][line] = 'O';
+            music(5);
+            gameBoard[col][line] = 'X';
             printf("\nTOUCHÉ !\n\n");
             nbrCoups++;
         }else{
             music(4);
-            gameBoard[col][line] = 'X';
+            gameBoard[col][line] = 'O';
             printf("\nÀ L'EAU !\n\n");
             nbrCoups++;
         }
@@ -536,8 +561,8 @@ void gameHelp(){
                        "    Vous pouvez tirer autant de fois que vous le souhaitez tant qu'il y a des bateaux adverses en vie.\n"
                        "    A chaque coup, vous devez entrer la case sur laquelle vous souhaitez tier, par exemple B2 ou H6.\n"
                        "    Trois symboles peuvent apparaitre dans une case:\n"
-                       "        - X : A l'eau\n"
-                       "        - O : Touché\n"
+                       "        - O : A l'eau\n"
+                       "        - X : Touché\n"
                        "        - C : Coulé\n"
                        "    Vous ne pouvez tirer qu'une seule fois par case !\n\n"
                        "Retour au menu -> "
@@ -681,8 +706,13 @@ int main() {
     int gameOn = 1, menuChoice = 0;
     char menuChoiceT[3];
 
+    // Lancement de la musique de chargement.
+    music(3);
     loading();
+    // Stop la musique de chargement
+    music(8);
 
+    // Lance la musique du jeu.
     music(1);
     connexion();
 

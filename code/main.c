@@ -198,14 +198,14 @@ void scoresFunc(int choice){
                    "\\___ \\ | |   | | | || |_) ||  _|  \\___ \\\n"
                    " ___) || |___| |_| ||  _ < | |___  ___) |\n"
                    "|____/  \\____|\\___/ |_| \\_\\|_____||____/\n\n"
-                   "        Les scores précédents:"
+                   "    Les scores précédents:"
             );
 
             c = fgetc(scoreLect);
 
             // Si le premier caractère récupérer du fichier est différent de la fin du fichier, il va lire dans le fichier, sinon, il va dire qu'il y a aucun score trouvé.
             if (c != EOF) {
-                printf("\n            %d) ", numLigne);
+                printf("\n        %d) ", numLigne);
 
                 //tant que la lecture du fichier n'est pas arrivée à la fin
                 while (c != EOF) {
@@ -221,12 +221,12 @@ void scoresFunc(int choice){
                         if (c == EOF) {
                             break;
                         } else {
-                            printf("\n            %d) ", numLigne);
+                            printf("\n        %d) ", numLigne);
                         }
                     }
                 }
             }else{
-                printf("\n            Aucun score trouvé !");
+                printf("\n        Aucun score trouvé !");
             }
 
             printf("\n\nRetour au menu -> ");
@@ -588,7 +588,7 @@ void gameHelp(){
                        "        Dès le bateau coulé, on recommence !\n\n"
                        "    La croix:\n"
                        "        Cette technique consiste à tirer sur plusieurs cases formant le dessin d'une croix.\n"
-                       "        Vous avez 2 styles de croix à faire: X ou +. La croix X offre plus de chances mais fais beaucoup plus de tir."
+                       "        Vous avez 2 styles de croix à faire: X ou +. La croix X offre plus de chances mais fais beaucoup plus de tir.\n"
                        "        Cette technique n'est pas la meilleure, votre score de coups sera assez élevé.\n\n"
                        "    D'autres techniques arriveront...\n\n"
                        "Retour au menu -> "

@@ -9,7 +9,7 @@ Pour jouer au jeu, vous devez posséder un ordinateur sous Windows 10. Il n'y a p
 ## Contributions
 Raphaël FAVRE, Chef de Projet
 
-Ethann SCHNEIDER, SI-C1b, Testeur
-Adam SIFATE, SI-C1b, Testeur
-Romain HUMBERT-DROZ-LAURENT, SI-C1b, Testeur
-Léane Couvreur, SI-C1b, Testeuse
+Ethann SCHNEIDER, SI-C1b, Testeur<br/>
+Adam SIFATE, SI-C1b, Testeur<br/>
+Romain HUMBERT-DROZ-LAURENT, SI-C1b, Testeur<br/>
+Léane Couvreur, SI-C1b, Testeuse<br/>
